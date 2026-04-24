@@ -26,6 +26,13 @@ async function authenticateToken(req: Request, res: Response, next: NextFunction
 
   const token = authHeader.substring(7);
 
+  // Accept PERSONAL_AUTH_TOKEN directly for static API access
+  const personalToken = process.env.PERSONAL_AUTH_TOKEN;
+  if (personalToken && token === personalToken) {
+    next();
+    return;
+  }
+
   if (!(await auth.validateAccessToken(token))) {
     res.status(401).json({
       error: 'invalid_token',
