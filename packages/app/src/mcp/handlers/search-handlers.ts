@@ -131,7 +131,7 @@ async function performFuzzySearch(
             lines,
           });
         } catch (error) {
-          logger.warn(`Error reading file during search`, { path, error });
+          logger.warn(`Error reading file during search`, { path, error: error instanceof Error ? error.message : String(error) });
         }
       }),
     );
@@ -217,7 +217,7 @@ async function performExactSearch(
 
           return null;
         } catch (error) {
-          logger.warn(`Error searching file`, { path, error });
+          logger.warn(`Error searching file`, { path, error: error instanceof Error ? error.message : String(error) });
           return null;
         }
       }),
